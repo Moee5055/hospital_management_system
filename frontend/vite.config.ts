@@ -11,4 +11,11 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    host: true,
+    port: 5173,
+    allowedHosts: [
+      "bb40b22304bd.ngrok-free.app", // add your ngrok host here
+    ],
+  },
 });
