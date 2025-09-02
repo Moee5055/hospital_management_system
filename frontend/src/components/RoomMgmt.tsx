@@ -19,7 +19,7 @@ export default function RoomMgmt() {
       docRef,
       (docSnap) => {
         if (docSnap.exists()) {
-          setRoom({ airQuality: 85, ...docSnap.data() });
+          setRoom(docSnap.data());
           setError(null);
         } else {
           setError("No such document.");

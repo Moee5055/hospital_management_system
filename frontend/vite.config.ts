@@ -12,10 +12,9 @@ export default defineConfig({
     },
   },
   server: {
-    host: true,
-    port: 5173,
-    allowedHosts: [
-      "bb40b22304bd.ngrok-free.app", // add your ngrok host here
-    ],
+    allowedHosts: ["d12fdac0be4a.ngrok-free.app"],
+    host: true, // accept external connections
+    cors: true, // allow all origins
+    strictPort: false, // optional, avoid port conflicts
   },
 });

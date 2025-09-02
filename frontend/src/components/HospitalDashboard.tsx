@@ -7,13 +7,8 @@ import {
   Activity,
   Home,
   Settings,
-  Flame,
-  Wind,
-  Zap,
   Wifi,
   WifiOff,
-  Shield,
-  AlertTriangle,
   CheckCircle,
   Bed,
   User,
@@ -25,6 +20,7 @@ import AttendanceUI from "./AttendanceUI";
 import WastManagement from "./WasteMgmt";
 import RoomMgmt from "./RoomMgmt";
 import ParkingMgmt from "./ParkingMgmt";
+import DiasterMgmt from "./DiasterMgmt";
 
 export default function HospitalDashboard() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -34,34 +30,6 @@ export default function HospitalDashboard() {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
-
-  // Smart Parking Data
-  const [parkingSlots, setParkingSlots] = useState([
-    { id: 1, status: "available", reservedBy: null },
-    { id: 2, status: "occupied", reservedBy: null },
-    { id: 3, status: "reserved", reservedBy: "You" },
-    { id: 4, status: "available", reservedBy: null },
-    { id: 5, status: "occupied", reservedBy: null },
-    { id: 6, status: "available", reservedBy: null },
-  ]);
-
-  const reserveSlot = (slotId: number) => {
-    setParkingSlots((prev) =>
-      prev.map((slot) =>
-        slot.id === slotId && slot.status === "available"
-          ? { ...slot, status: "reserved", reservedBy: "You" }
-          : slot,
-      ),
-    );
-  };
-
-  // Disaster Monitoring Data
-  const disasterData = {
-    gasLevel: 245,
-    flameDetected: false,
-    vibrationDetected: false,
-    gasStatus: 245 > 400 ? "Danger" : "Safe",
-  };
 
   // Multiple Room Data with Beds
   const roomsData = [
@@ -155,67 +123,7 @@ export default function HospitalDashboard() {
         <WastManagement />
 
         {/* Disaster Monitoring */}
-        <Card className="bg-gray-800 border-gray-700">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-white">
-              <Shield className="w-5 h-5 text-red-400" />
-              Disaster Monitoring
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="text-center p-3 bg-gray-700 rounded-lg">
-                <Flame
-                  className={`w-8 h-8 mx-auto mb-2 ${disasterData.flameDetected ? "text-red-400" : "text-gray-500"}`}
-                />
-                <div className="text-sm font-medium text-white">Flame</div>
-                <div
-                  className={`text-xs ${disasterData.flameDetected ? "text-red-400" : "text-green-400"}`}
-                >
-                  {disasterData.flameDetected ? "Detected" : "No"}
-                </div>
-              </div>
-
-              <div className="text-center p-3 bg-gray-700 rounded-lg">
-                <Wind
-                  className={`w-8 h-8 mx-auto mb-2 ${disasterData.gasStatus === "Danger" ? "text-red-400" : "text-green-400"}`}
-                />
-                <div className="text-sm font-medium text-white">Gas Level</div>
-                <div className="text-xs text-gray-400">
-                  {disasterData.gasLevel}
-                </div>
-                <div
-                  className={`text-xs ${disasterData.gasStatus === "Danger" ? "text-red-400" : "text-green-400"}`}
-                >
-                  {disasterData.gasStatus}
-                </div>
-              </div>
-
-              <div className="text-center p-3 bg-gray-700 rounded-lg">
-                <Zap
-                  className={`w-8 h-8 mx-auto mb-2 ${disasterData.vibrationDetected ? "text-red-400" : "text-gray-500"}`}
-                />
-                <div className="text-sm font-medium text-white">Vibration</div>
-                <div
-                  className={`text-xs ${disasterData.vibrationDetected ? "text-red-400" : "text-green-400"}`}
-                >
-                  {disasterData.vibrationDetected ? "Yes" : "No"}
-                </div>
-              </div>
-            </div>
-
-            {(disasterData.flameDetected ||
-              disasterData.gasStatus === "Danger" ||
-              disasterData.vibrationDetected) && (
-              <div className="mt-4 p-3 bg-red-900/50 border border-red-700 rounded-lg">
-                <div className="flex items-center gap-2 text-red-400">
-                  <AlertTriangle className="w-4 h-4" />
-                  <span className="text-sm font-medium">DANGER DETECTED!</span>
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        <DiasterMgmt />
 
         {/* Multiple Room Monitoring */}
         <Card className="bg-gray-800 border-gray-700">
